@@ -20,9 +20,10 @@ from django.urls import path
 from django.urls import include
 from django.urls import path, include
 
+
 from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
+     TokenObtainPairView,
+     TokenRefreshView,
 )
 
 from accounts.views import TestView
@@ -53,4 +54,5 @@ urlpatterns = [
     TestView.as_view(),
     name="test"
 ),
+path('api/', include('skills.urls')),
 ]
