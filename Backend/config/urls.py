@@ -55,4 +55,8 @@ urlpatterns = [
     name="test"
 ),
 path('api/', include('skills.urls')),
+path('api/', include('courses.urls')),
+path('api/', include('enrollments.urls')),
+path('api/', include('quizzes.urls')),
+path( "api/",include("analytics.urls")),
 ]

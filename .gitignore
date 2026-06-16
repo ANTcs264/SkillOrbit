@@ -1,15 +1,23 @@
 # Virtual Environment
 venv/
+.venv/
 
-# Python Cache
+# Python cache
 __pycache__/
-*.pyc
+*.py[cod]
+
+# Database
+db.sqlite3
+
+# Environment variables
+.env
 
 # VS Code
 .vscode/
 
-# Environment Variables
-.env
+# OS files
+.DS_Store
+Thumbs.db
 
 # Frontend dependencies
 node_modules/
