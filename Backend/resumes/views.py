@@ -1,6 +1,12 @@
 from django.shortcuts import render
 
 # Create your views here.
+from .resume_engine import (
+    get_missing_skills,
+    calculate_resume_score,
+    calculate_resume_completeness,
+    generate_roadmap
+)
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
@@ -11,10 +17,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from profiles.models import Profile
-from skills.models import Skill
+
 from quizzes.models import QuizAttempt
 from skills.models import Skill
 from .models import ResumeAnalysis
+
 
 
 class ResumeView(
@@ -141,157 +148,50 @@ class ResumeAnalysisView(APIView):
             user=user
         )
 
-        skill_names = [
-            skill.skill.lower()
-            for skill in skills
-        ]
+        skill_names = list(
+        set(
+           skill.skill.lower()
+           for skill in skills
+    )
+)
 
-        # Career Path Detection
-        career_path = "General"
-
-        if (
-            "python" in skill_names and
-            "machine learning" in skill_names
-        ):
-            career_path = "AI/ML Engineer"
-
-        elif (
-            "django" in skill_names or
-            "flask" in skill_names
-        ):
-            career_path = "Backend Developer"
-
-        elif (
-            "react" in skill_names or
-            "javascript" in skill_names
-        ):
-            career_path = "Frontend Developer"
-
-        # Missing Skills Detection
-        missing_skills = []
-
-        required_skills = []
-
-        if career_path == "AI/ML Engineer":
-
-            required_skills = [
-                "python",
-                "machine learning",
-                "git",
-                "sql",
-                "docker"
-            ]
-
-        elif career_path == "Backend Developer":
-
-            required_skills = [
-                "python",
-                "django",
-                "git",
-                "sql",
-                "docker"
-            ]
-
-        elif career_path == "Frontend Developer":
-
-            required_skills = [
-                "html",
-                "css",
-                "javascript",
-                "react",
-                "git"
-            ]
-
-        for skill in required_skills:
-
-            if skill not in skill_names:
-
-                missing_skills.append(skill)
+        career_path, _, missing_skills = (
+        get_missing_skills(
+        skill_names
+    )
+)
 
         # Resume Score Calculation
-        score = 0
-
-        strengths = []
-
-        suggestions = []
-
-        if resume.summary:
-
-            score += 20
-
-            strengths.append(
-                "Professional summary added"
-            )
-
-        else:
-
-            suggestions.append(
-                "Add a professional summary"
-            )
-
-        if profile.bio:
-
-            score += 15
-
-            strengths.append(
-                "Profile bio completed"
-            )
-
-        else:
-
-            suggestions.append(
-                "Complete your profile bio"
-            )
-
-        if len(skill_names) >= 5:
-
-            score += 30
-
-            strengths.append(
-                "Strong skill portfolio"
-            )
-
-        else:
-
-            suggestions.append(
-                "Add more technical skills"
-            )
-
-        if profile.linkedin:
-
-            score += 15
-
-            strengths.append(
-                "LinkedIn profile added"
-            )
-
-        else:
-
-            suggestions.append(
-                "Add LinkedIn profile"
-            )
-
-        if profile.github:
-
-            score += 20
-
-            strengths.append(
-                "GitHub profile added"
-            )
-
-        else:
-
-            suggestions.append(
-                "Add GitHub profile"
-            )
-
+      
+        score, strengths, suggestions = (
+         calculate_resume_score(
+        resume,
+        profile,
+        skill_names
+    )
+)
+        
         # Save Analysis
-        analysis = ResumeAnalysis.objects.create(
-            user=user,
-            score=score,
-            strengths=strengths,
-            suggestions=suggestions
-        )
+        
+        analysis = ResumeAnalysis.objects.filter(
+        user=user
+        ).first()
+        
+        if analysis:
+        
+            analysis.score = score
+            analysis.strengths = strengths
+            analysis.suggestions = suggestions
+            analysis.save()
+        
+        else:
+        
+            analysis = ResumeAnalysis.objects.create(
+                user=user,
+                score=score,
+                strengths=strengths,
+                suggestions=suggestions
+    )
 
         # Recommended Courses
         recommended_courses = []
@@ -324,35 +224,13 @@ class ResumeAnalysisView(APIView):
 
         ats_score = score
             
-        completed_fields = 0
-            
-        total_fields = 7
-            
-        if resume.summary:
-                completed_fields += 1
-            
-        if profile.bio:
-                completed_fields += 1
-            
-        if profile.github:
-                completed_fields += 1
-            
-        if profile.linkedin:
-                completed_fields += 1
-            
-        if profile.college:
-                completed_fields += 1
-            
-        if profile.graduation_year:
-                completed_fields += 1
-            
-        if len(skill_names) > 0:
-                completed_fields += 1
-            
-        resume_completeness = round(
-                (completed_fields / total_fields) * 100,
-                2
-            )
+        resume_completeness = (
+    calculate_resume_completeness(
+        resume,
+        profile,
+        skill_names
+    )
+)
         if ats_score >= 85:
 
          placement_readiness = (
@@ -370,35 +248,11 @@ class ResumeAnalysisView(APIView):
                "Not Ready"
            )
 
-        roadmap = []
-
-        for skill in missing_skills:
-
-         roadmap.append(
-        f"Learn {skill.title()}"
-         )
-        
-        if len(skill_names) < 5:
-        
-            roadmap.append(
-                "Add More Technical Skills"
-            )
-        
-        if not profile.github:
-        
-            roadmap.append(
-                "Create GitHub Portfolio"
-            )
-        
-        if not profile.linkedin:
-        
-            roadmap.append(
-                "Create LinkedIn Profile"
-            )
-        
-        roadmap.append(
-    "Build 2 Major Projects"
-)   
+        roadmap = generate_roadmap(
+        missing_skills,
+        profile,
+       skill_names
+)
         return Response({
 
      "resume_score": score,

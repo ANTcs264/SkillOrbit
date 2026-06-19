@@ -1,10 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-
+from resumes.models import ResumeAnalysis
 from skills.models import Skill
+from jobs.models import JobRecommendation
 
 from common.career_engine import (
+    CAREER_PATHS,
     detect_career_path
 )
 
@@ -34,41 +36,11 @@ class PlacementReadinessView(APIView):
             skill_names
         )
 
-        if career_path == "AI/ML Engineer":
+        career_data = CAREER_PATHS.get(
+         career_path, {})
 
-            required_skills = [
-                "python",
-                "machine learning",
-                "git",
-                "sql",
-                "docker",
-                "deep learning",
-                "aws"
-            ]
-
-        elif career_path == "Backend Developer":
-
-            required_skills = [
-                "python",
-                "django",
-                "sql",
-                "git",
-                "docker"
-            ]
-
-        elif career_path == "Frontend Developer":
-
-            required_skills = [
-                "html",
-                "css",
-                "javascript",
-                "react",
-                "git"
-            ]
-
-        else:
-
-            required_skills = []
+        required_skills = career_data.get(
+          "required_skills",[])
 
         missing_skills = []
 
@@ -94,17 +66,30 @@ class PlacementReadinessView(APIView):
             2
         )
 
-        resume_score = 100
+        analysis = ResumeAnalysis.objects.filter( user=user).order_by("-created_at").first()
 
-        job_readiness = skill_score
+        resume_score = (analysis.score
+              if analysis
+              else 0
+              )
+
+        job_recommendations = JobRecommendation.objects.filter(user=user).order_by("-readiness")
+
+        if job_recommendations.exists():
+
+         job_readiness = (
+         job_recommendations.first().readiness)
+
+        else:
+
+         job_readiness = skill_score
 
         placement_score = round(
             (
                 resume_score * 0.4 +
                 job_readiness * 0.4 +
                 skill_score * 0.2
-            ),
-            2
+            ),2
         )
 
         if placement_score >= 85:

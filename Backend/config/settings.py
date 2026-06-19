@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'roadmap',
     'skillgap',
     'placement',
+    
 ]
 
 MIDDLEWARE = [
