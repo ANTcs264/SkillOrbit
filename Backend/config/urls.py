@@ -33,27 +33,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/', include('accounts.urls')),
-    path(
-    'api/profile/',
-    include('profiles.urls')
-),
+    path('api/profile/',include('profiles.urls')),
 
-    path(
-        'api/token/',
-        TokenObtainPairView.as_view(),
-        name='token_obtain_pair'
-    ),
+    path( 'api/token/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
 
-    path(
-        'api/token/refresh/',
-        TokenRefreshView.as_view(),
-        name='token_refresh'
-    ),
-    path(
-    "test/",
-    TestView.as_view(),
-    name="test"
-),
+    path('api/token/refresh/',TokenRefreshView.as_view(),name='token_refresh'),
+    path("test/",TestView.as_view(),name="test"),
 path('api/', include('skills.urls')),
 path('api/', include('courses.urls')),
 path('api/', include('enrollments.urls')),
@@ -64,4 +49,5 @@ path("api/",include("resumes.urls")),
 path("api/", include("jobs.urls")),
 path("api/career-roadmap/",include("roadmap.urls")),
 path("api/skill-gap/",include("skillgap.urls")),
+path('api/placement-readiness/',include('placement.urls')),
 ]

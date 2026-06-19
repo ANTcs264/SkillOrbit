@@ -3,7 +3,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from skills.models import Skill
+
 from common.career_engine import (
+    CAREER_PATHS,
     detect_career_path
 )
 
@@ -23,51 +25,25 @@ class SkillGapView(APIView):
         )
 
         skill_names = list(
-    set(
-        skill.skill.lower()
-        for skill in skills
-    )
-)
-
-        career_path = (
-            detect_career_path(
-                skill_names
+            set(
+                skill.skill.lower()
+                for skill in skills
             )
         )
 
-        required_skills = []
+        career_path = detect_career_path(
+            skill_names
+        )
 
-        if career_path == "AI/ML Engineer":
+        career_data = CAREER_PATHS.get(
+            career_path,
+            {}
+        )
 
-            required_skills = [
-                "python",
-                "machine learning",
-                "git",
-                "sql",
-                "docker",
-                "deep learning",
-                "aws"
-            ]
-
-        elif career_path == "Backend Developer":
-
-            required_skills = [
-                "python",
-                "django",
-                "sql",
-                "git",
-                "docker"
-            ]
-
-        elif career_path == "Frontend Developer":
-
-            required_skills = [
-                "html",
-                "css",
-                "javascript",
-                "react",
-                "git"
-            ]
+        required_skills = career_data.get(
+            "required_skills",
+            []
+        )
 
         missing_skills = []
 
