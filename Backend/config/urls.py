@@ -50,4 +50,5 @@ path("api/", include("jobs.urls")),
 path("api/career-roadmap/",include("roadmap.urls")),
 path("api/skill-gap/",include("skillgap.urls")),
 path('api/placement-readiness/',include('placement.urls')),
+path("api/",include("coach.urls")),
 ]
