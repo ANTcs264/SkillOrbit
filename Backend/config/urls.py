@@ -53,4 +53,6 @@ path('api/placement-readiness/',include('placement.urls')),
 path("api/",include("coach.urls")),
 path("api/",include("pdf_resume.urls")),
 path("api/",include("reviewer.urls")),
+path("api/",include("ai_assistant.urls")),
+
 ]
