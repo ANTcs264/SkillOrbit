@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from resumes.models import ResumeAnalysis
 from skills.models import Skill
 from jobs.models import JobRecommendation
+from .models import PlacementReadiness
 
 from common.career_engine import (
     CAREER_PATHS,
@@ -103,6 +104,30 @@ class PlacementReadinessView(APIView):
         else:
 
             status = "Needs Improvement"
+
+
+        PlacementReadiness.objects.update_or_create(
+
+         user=user,
+     
+         defaults={
+    
+            "placement_score":
+            placement_score,
+    
+            "resume_score":
+            resume_score,
+    
+            "skill_score":
+            skill_score,
+    
+            "job_readiness":
+            job_readiness,
+    
+            "status":
+            status
+    }
+)    
 
         return Response({
 

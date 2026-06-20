@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'skillgap',
     'placement',
     'coach',
+    'pdf_resume',
+    'reviewer',
     
 ]
 
