@@ -1,15 +1,23 @@
- import {
+import {
   FaHome,
   FaUser,
   FaRobot,
   FaFileAlt,
   FaChartLine,
   FaSignOutAlt,
+  FaRoad,
+  FaBriefcase,
+  FaCode,
 } from "react-icons/fa";
+import {
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
 
-import { NavLink, useNavigate } from "react-router-dom";
+
 
 const Sidebar = () => {
+
 
   const navigate = useNavigate();
 
@@ -86,12 +94,20 @@ const Sidebar = () => {
           Resume Review
         </NavLink>
 
-        <NavLink
-          to="/career-copilot"
+       <NavLink
+          to="/career-coach"
           style={menuStyle}
         >
           <FaRobot />
-          AI Copilot
+          Career Coach
+        </NavLink>
+        
+        <NavLink
+          to="/career-roadmap"
+          style={menuStyle}
+        >
+          <FaRoad />
+          Career Roadmap
         </NavLink>
 
         <NavLink
@@ -101,6 +117,30 @@ const Sidebar = () => {
           <FaChartLine />
           Reports
         </NavLink>
+
+        <NavLink
+          to="/job-recommendations"
+          style={menuStyle}
+        >
+          <FaBriefcase />
+          Jobs
+        </NavLink>
+
+               <NavLink
+            to="/career-copilot"
+            style={menuStyle}
+          >
+            <FaRobot />
+            AI Copilot
+          </NavLink>
+
+          <NavLink
+           to="/skills"
+           style={menuStyle}
+>
+           <FaCode />
+             Skills
+             </NavLink>
       </div>
 
       <button

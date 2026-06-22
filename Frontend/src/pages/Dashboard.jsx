@@ -68,145 +68,234 @@ const Dashboard = () => {
       </MainLayout>
     );
   }
+  
+return (
+  <MainLayout>
+    <h1
+      style={{
+        marginBottom: "25px",
+      }}
+    >
+      🚀 SkillOrbit AI Dashboard
+    </h1>
 
-  return (
-    <MainLayout>
+    {/* KPI Cards */}
 
-      <h1
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns:
+          "repeat(auto-fit,minmax(250px,1fr))",
+        gap: "20px",
+        marginBottom: "25px",
+      }}
+    >
+      <StatCard
+        title="Career Path"
+        value={dashboard.career_path}
+        color="#2563EB"
+        icon={<FaBrain />}
+      />
+
+      <StatCard
+        title="Resume Score"
+        value={`${dashboard.resume_score}%`}
+        color="#16A34A"
+        icon={<FaFileAlt />}
+      />
+
+      <StatCard
+        title="Placement Score"
+        value={`${dashboard.placement_score}%`}
+        color="#DC2626"
+        icon={<FaChartLine />}
+      />
+
+      <StatCard
+        title="Job Readiness"
+        value={`${placement.job_readiness}%`}
+        color="#9333EA"
+        icon={<FaRobot />}
+      />
+    </div>
+
+    {/* Secondary Metrics */}
+
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns:
+          "repeat(auto-fit,minmax(220px,1fr))",
+        gap: "20px",
+        marginBottom: "25px",
+      }}
+    >
+      <StatCard
+        title="Skills"
+        value={dashboard.skills_count}
+        color="#0EA5E9"
+      />
+
+      <StatCard
+        title="Courses"
+        value={dashboard.courses_enrolled}
+        color="#F59E0B"
+      />
+
+      <StatCard
+        title="Quizzes"
+        value={dashboard.quizzes_attempted}
+        color="#8B5CF6"
+      />
+
+      <StatCard
+        title="Pass Rate"
+        value={`${dashboard.pass_rate}%`}
+        color="#22C55E"
+      />
+    </div>
+
+    {/* Gauge + Skill Gap */}
+
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns:
+          "repeat(auto-fit,minmax(350px,1fr))",
+        gap: "20px",
+        marginBottom: "25px",
+      }}
+    >
+      <PlacementGauge
+        score={
+          placement.placement_score
+        }
+      />
+
+      <SkillGapCard
+        skills={
+          dashboard.missing_skills
+        }
+      />
+    </div>
+
+    {/* Career Recommendation */}
+
+    <div
+      style={{
+        background: "white",
+        padding: "25px",
+        borderRadius: "20px",
+        marginBottom: "25px",
+        boxShadow:
+          "0 10px 30px rgba(0,0,0,.08)",
+      }}
+    >
+      <h2>
+        🤖 AI Career Recommendation
+      </h2>
+
+      <h3
         style={{
-          marginBottom: "25px",
+          color: "#2563EB",
         }}
       >
-        🚀 SkillOrbit AI Dashboard
-      </h1>
+        {dashboard.career_path}
+      </h3>
 
-      {/* KPI Cards */}
+      <p>
+        Recommended skills to focus
+        on:
+      </p>
 
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fit,minmax(250px,1fr))",
-          gap: "20px",
-          marginBottom: "25px",
+          display: "flex",
+          gap: "10px",
+          flexWrap: "wrap",
+          marginTop: "10px",
         }}
       >
-        <StatCard
-          title="Career Path"
-          value={
-            dashboard.career_path
-          }
-          color="#2563EB"
-          icon={<FaBrain />}
-        />
-
-        <StatCard
-          title="Resume Score"
-          value={
-            dashboard.resume_score
-          }
-          color="#16A34A"
-          icon={<FaFileAlt />}
-        />
-
-        <StatCard
-          title="Placement Score"
-          value={
-            dashboard.placement_score
-          }
-          color="#DC2626"
-          icon={<FaChartLine />}
-        />
-
-        <StatCard
-          title="Job Readiness"
-          value={
-            placement.job_readiness
-          }
-          color="#9333EA"
-          icon={<FaRobot />}
-        />
+        {dashboard.missing_skills.map(
+          (skill) => (
+            <span
+              key={skill}
+              style={{
+                padding:
+                  "8px 14px",
+                background:
+                  "#DBEAFE",
+                color:
+                  "#1E40AF",
+                borderRadius:
+                  "999px",
+                fontWeight:
+                  "600",
+              }}
+            >
+              {skill}
+            </span>
+          )
+        )}
       </div>
+    </div>
 
-      {/* Second Row */}
+    {/* Resume Review */}
 
-      <div
+    <div
+      style={{
+        background: "white",
+        padding: "25px",
+        borderRadius: "20px",
+        boxShadow:
+          "0 10px 30px rgba(0,0,0,.08)",
+      }}
+    >
+      <h2>
+        📄 AI Resume Review
+      </h2>
+
+      <h3
         style={{
-          display: "grid",
-          gridTemplateColumns:
-            "1fr 1fr",
-          gap: "20px",
-          marginBottom: "25px",
+          color: "#16A34A",
         }}
       >
-        <PlacementGauge
-          score={
-            placement.placement_score
-          }
-        />
+        Strengths
+      </h3>
 
-        <SkillGapCard
-          skills={
-            dashboard.missing_skills
-          }
-        />
-      </div>
+      <ul>
+        {review.strengths.map(
+          (item) => (
+            <li key={item}>
+              {item}
+            </li>
+          )
+        )}
+      </ul>
 
-      {/* Resume Review */}
-
-      <div
+      <h3
         style={{
-          background: "white",
-          padding: "25px",
-          borderRadius: "20px",
-          boxShadow:
-            "0 10px 30px rgba(0,0,0,0.08)",
+          color: "#DC2626",
+          marginTop: "15px",
         }}
       >
-        <h2>
-          AI Resume Review
-        </h2>
+        Improvements
+      </h3>
 
-        <h3
-          style={{
-            color: "#16A34A",
-          }}
-        >
-          Strengths
-        </h3>
-
-        <ul>
-          {review.strengths.map(
-            (item) => (
-              <li key={item}>
-                {item}
-              </li>
-            )
-          )}
-        </ul>
-
-        <h3
-          style={{
-            color: "#DC2626",
-            marginTop: "15px",
-          }}
-        >
-          Improvements
-        </h3>
-
-        <ul>
-          {review.recommendations.map(
-            (item) => (
-              <li key={item}>
-                {item}
-              </li>
-            )
-          )}
-        </ul>
-      </div>
-
-    </MainLayout>
-  );
+      <ul>
+        {review.recommendations.map(
+          (item) => (
+            <li key={item}>
+              {item}
+            </li>
+          )
+        )}
+      </ul>
+    </div>
+  </MainLayout>
+);
+  
+  
 };
 
 export default Dashboard;

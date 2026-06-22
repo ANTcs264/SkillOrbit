@@ -68,6 +68,8 @@ function Login() {
           width: "420px",
           padding: "40px",
           borderRadius: "24px",
+          border: "1px solid rgba(255,255,255,.08)",
+          boxShadow:"0 20px 60px rgba(0,0,0,.35)",
           background:
             "rgba(255,255,255,0.08)",
           backdropFilter: "blur(15px)",
@@ -126,14 +128,26 @@ function Login() {
           )}
 
           <button
-            type="submit"
-            disabled={loading}
-            style={buttonStyle}
-          >
-            {loading
-              ? "Signing In..."
-              : "Login"}
-          </button>
+             type="submit"
+             style={buttonStyle}
+             onMouseEnter={(e) => {
+               e.target.style.transform =
+                 "translateY(-2px)";
+           
+               e.target.style.boxShadow =
+                 "0 10px 25px rgba(37,99,235,.4)";
+             }}
+             onMouseLeave={(e) => {
+               e.target.style.transform =
+                 "translateY(0)";
+           
+               e.target.style.boxShadow =
+                 "none";
+             }}
+>
+           Login
+         </button>
+
         </form>
 
         <p
@@ -159,12 +173,15 @@ function Login() {
 
 const inputStyle = {
   width: "100%",
-  padding: "14px",
+  padding: "14px 16px",
   marginBottom: "15px",
   borderRadius: "12px",
-  border: "none",
-  outline: "none",
+  border: "1px solid rgba(255,255,255,0.15)",
+  background: "rgba(255,255,255,0.08)",
+  color: "white",
   fontSize: "16px",
+  outline: "none",
+  boxSizing: "border-box",
 };
 
 const buttonStyle = {
@@ -172,10 +189,13 @@ const buttonStyle = {
   padding: "14px",
   border: "none",
   borderRadius: "12px",
-  background: "#2563EB",
+  background:
+    "linear-gradient(135deg,#2563EB,#3B82F6)",
   color: "white",
   fontSize: "16px",
+  fontWeight: "600",
   cursor: "pointer",
+  transition: "all .3s ease",
 };
 
 export default Login;

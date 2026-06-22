@@ -6,24 +6,22 @@ from accounts.models import User
 
 
 class Skill(models.Model):
-
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
-        related_name="skills"
+        on_delete=models.CASCADE
     )
 
     skill = models.CharField(
         max_length=100
     )
 
-    progress = models.IntegerField(
-        default=0
-    )
+    progress = models.IntegerField()
 
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    class Meta:
+        unique_together = (
+            "user",
+            "skill"
+        )
 
     def __str__(self):
         return f"{self.user.username} - {self.skill}"
