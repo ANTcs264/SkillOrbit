@@ -19,8 +19,22 @@ class Profile(models.Model):
         blank=True
     )
 
+    branch = models.CharField(
+        max_length=100,
+        blank=True
+    )
+    current_year = models.CharField(
+    max_length=50,
+    null=True,
+    blank=True
+)
+    
     graduation_year = models.IntegerField(
         null=True,
+        blank=True
+    )
+    career_goal = models.CharField(
+        max_length=100,
         blank=True
     )
    

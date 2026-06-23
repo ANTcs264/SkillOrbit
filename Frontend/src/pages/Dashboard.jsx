@@ -68,16 +68,294 @@ const Dashboard = () => {
       </MainLayout>
     );
   }
+  const heroBtn = {
+  padding: "12px 22px",
+  borderRadius: "12px",
+  border: "none",
+  background: "white",
+  color: "#2563EB",
+  fontWeight: "600",
+  cursor: "pointer",
+};
   
 return (
   <MainLayout>
-    <h1
+   <h1
+  style={{
+    marginBottom: "25px",
+  }}
+>
+   SkillOrbit AI Dashboard
+</h1>
+
+{/* Hero Section */}
+
+<div
+  style={{
+    background:
+      "linear-gradient(135deg,#2563EB,#7C3AED)",
+    color: "white",
+    padding: "35px",
+    borderRadius: "24px",
+    marginBottom: "25px",
+    boxShadow:
+      "0 20px 40px rgba(37,99,235,.25)",
+  }}
+>
+  <h1
+    style={{
+      margin: 0,
+      fontSize: "34px",
+      fontWeight: "700",
+    }}
+  >
+    Welcome Back 👋
+  </h1>
+
+  <p
+    style={{
+      marginTop: "15px",
+      fontSize: "18px",
+      opacity: 0.95,
+    }}
+  >
+    Track your career growth and
+    placement readiness.
+  </p>
+
+  <div
+    style={{
+      display: "flex",
+      gap: "30px",
+      flexWrap: "wrap",
+      marginTop: "25px",
+    }}
+  >
+    <div>
+      <p style={{ margin: 0, opacity: 0.8 }}>
+        Target Career
+      </p>
+
+      <h3 style={{ margin: "5px 0" }}>
+        {dashboard.career_path}
+      </h3>
+    </div>
+
+    <div>
+      <p style={{ margin: 0, opacity: 0.8 }}>
+        Placement Readiness
+      </p>
+
+      <h3 style={{ margin: "5px 0" }}>
+        {placement.placement_score}%
+      </h3>
+    </div>
+
+    <div>
+      <p style={{ margin: 0, opacity: 0.8 }}>
+        Resume Score
+      </p>
+
+      <h3 style={{ margin: "5px 0" }}>
+        {dashboard.resume_score}%
+      </h3>
+    </div>
+  </div>
+</div>
+
+{/* Activity + Skill Growth */}
+
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns:
+      "repeat(auto-fit,minmax(450px,1fr))",
+    gap: "25px",
+    marginBottom: "25px",
+  }}
+>
+  {/* Recent Activity */}
+
+  <div
+    style={{
+      background: "white",
+      padding: "25px",
+      borderRadius: "20px",
+      boxShadow:
+        "0 10px 30px rgba(0,0,0,.08)",
+    }}
+  >
+    <h2>📈 Recent Activity</h2>
+
+    <div
       style={{
-        marginBottom: "25px",
+        marginTop: "20px",
       }}
     >
-      🚀 SkillOrbit AI Dashboard
-    </h1>
+      {[
+        "Completed React Quiz",
+        "Updated Resume",
+        "Added Python Skill",
+        "Generated Career Roadmap",
+      ].map((item, index) => (
+        <div
+          key={index}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "15px",
+            marginBottom: "18px",
+          }}
+        >
+          <div
+            style={{
+              width: "12px",
+              height: "12px",
+              borderRadius: "50%",
+              background: "#2563EB",
+            }}
+          />
+
+          <span>{item}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Weekly Skill Growth */}
+
+  <div
+    style={{
+      background: "white",
+      padding: "25px",
+      borderRadius: "20px",
+      boxShadow:
+        "0 10px 30px rgba(0,0,0,.08)",
+    }}
+  >
+    <h2>🔥 Weekly Skill Growth</h2>
+
+    <div
+      style={{
+        marginTop: "20px",
+      }}
+    >
+      {[
+        {
+          skill: "Python",
+          progress: 90,
+        },
+        {
+          skill: "React",
+          progress: 75,
+        },
+        {
+          skill: "Django",
+          progress: 85,
+        },
+        {
+          skill: "SQL",
+          progress: 65,
+        },
+      ].map((item) => (
+        <div
+          key={item.skill}
+          style={{
+            marginBottom: "18px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent:
+                "space-between",
+              marginBottom: "6px",
+            }}
+          >
+            <span>{item.skill}</span>
+            <span>
+              {item.progress}%
+            </span>
+          </div>
+
+          <div
+            style={{
+              height: "10px",
+              background: "#E5E7EB",
+              borderRadius: "20px",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                width:
+                  `${item.progress}%`,
+                height: "100%",
+                background:
+                  "linear-gradient(90deg,#2563EB,#7C3AED)",
+              }}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+{/* Placement Progress */}
+
+<div
+  style={{
+    background: "white",
+    padding: "25px",
+    borderRadius: "24px",
+    marginBottom: "25px",
+    boxShadow:
+      "0 10px 30px rgba(0,0,0,.08)",
+  }}
+>
+  <h2>
+     Placement Readiness
+  </h2>
+
+  <div
+    style={{
+      height: "14px",
+      background: "#E5E7EB",
+      borderRadius: "20px",
+      overflow: "hidden",
+      marginTop: "15px",
+    }}
+  >
+    <div
+      style={{
+        width: `${placement.placement_score}%`,
+        height: "100%",
+        background:
+          "linear-gradient(90deg,#2563EB,#7C3AED)",
+      }}
+    />
+  </div>
+
+  <p
+    style={{
+      marginTop: "10px",
+      color: "#64748B",
+      fontWeight: "600",
+    }}
+  >
+    {placement.placement_score}% Placement Ready
+  </p>
+</div>
+
+<div
+  style={{
+    marginBottom: "25px",
+  }}
+>
+  
+</div>
+  
 
     {/* KPI Cards */}
 
@@ -85,8 +363,8 @@ return (
       style={{
         display: "grid",
         gridTemplateColumns:
-          "repeat(auto-fit,minmax(250px,1fr))",
-        gap: "20px",
+        "repeat(auto-fit,minmax(280px,1fr))",
+         gap: "25px",
         marginBottom: "25px",
       }}
     >
@@ -125,8 +403,8 @@ return (
       style={{
         display: "grid",
         gridTemplateColumns:
-          "repeat(auto-fit,minmax(220px,1fr))",
-        gap: "20px",
+       "repeat(auto-fit,minmax(250px,1fr))",
+       gap: "25px",
         marginBottom: "25px",
       }}
     >
@@ -239,6 +517,9 @@ return (
         )}
       </div>
     </div>
+
+
+
 
     {/* Resume Review */}
 

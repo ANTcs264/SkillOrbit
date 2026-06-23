@@ -21,7 +21,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-
         fields = [
             "username",
             "email",
@@ -31,5 +30,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "linkedin",
             "college",
             "graduation_year",
+            "current_year",
+            "branch",
+            "career_goal",
         ]
-        
