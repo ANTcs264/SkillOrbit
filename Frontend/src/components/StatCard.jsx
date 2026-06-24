@@ -15,6 +15,8 @@ y: -8,
 transition={{
 duration: 0.25,
 }}
+
+
 style={{
 background:
 "linear-gradient(180deg,#FFFFFF,#F8FAFC)",

@@ -1,3 +1,7 @@
+
+
+from urllib import request
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -15,13 +19,17 @@ class SkillGapView(APIView):
     permission_classes = [
         IsAuthenticated
     ]
+ 
 
     def get(self, request):
+        print("==== SKILL GAP API ====")
+        print("USER:", request.user)
+        print("AUTH:", request.auth)
 
-        user = request.user
+         
 
         skills = Skill.objects.filter(
-            user=user
+            user=request.user
         )
 
         skill_names = list(

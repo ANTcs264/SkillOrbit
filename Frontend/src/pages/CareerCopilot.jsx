@@ -1,8 +1,15 @@
- import { useState } from "react";
+import { useState, useEffect } from "react";
 import MainLayout from "../layouts/MainLayout";
 import api from "../services/api";
+import OrbitXInsights from "../components/OrbitXInsights";
+import OrbitXJobMatches from "../components/OrbitXJobMatches";
+import OrbitXActionPlan from "../components/OrbitXActionPlan";
+
+
+
 
 function CareerCopilot() {
+
 
   const [question, setQuestion] =
     useState("");
@@ -12,6 +19,54 @@ function CareerCopilot() {
 
   const [loading, setLoading] =
     useState(false);
+
+
+  const [skillGap, setSkillGap] =
+  useState(null);
+
+  const [placement, setPlacement] =
+    useState(null);
+  
+  const [resume, setResume] =
+    useState(null);
+  
+  const [jobs, setJobs] =
+  useState([]);  
+
+
+useEffect(() => {
+  Promise.all([
+    api.get("skill-gap/"),
+    api.get("placement-readiness/"),
+    api.get("resume-review/"),
+    api.get("job-recommendations/"),
+  ])
+    .then(
+      ([
+        skillGapRes,
+        placementRes,
+        resumeRes,
+        jobsRes,
+      ]) => {
+        setSkillGap(
+          skillGapRes.data
+        );
+
+        setPlacement(
+          placementRes.data
+        );
+
+        setResume(
+          resumeRes.data
+        );
+
+        setJobs(
+          jobsRes.data
+        );
+      }
+    )
+    .catch(console.error);
+}, []);
 
   const askCopilot = async () => {
 
@@ -23,7 +78,7 @@ function CareerCopilot() {
 
       setLoading(true);
 
-      const res = await api.post(
+  const res = await api.post(
         "ai-copilot/",
         {
           question,
@@ -43,6 +98,12 @@ function CareerCopilot() {
     }
   };
 
+const bestJob =jobs.length > 0 ? jobs[0] : null;
+
+console.log(skillGap);
+console.log(placement);
+console.log(resume);
+console.log(jobs);
   return (
     <MainLayout>
 
@@ -53,16 +114,14 @@ function CareerCopilot() {
     background: "white",
     padding: "30px",
     borderRadius: "20px",
-    boxShadow:
-      "0 10px 30px rgba(0,0,0,.08)",
+    boxShadow:"0 10px 30px rgba(0,0,0,.08)",
     marginBottom: "25px",
   }}
 >
 <h1
   style={{
     marginBottom: "8px",
-    background:
-      "linear-gradient(135deg,#2563EB,#7C3AED)",
+    background:"linear-gradient(135deg,#2563EB,#7C3AED)",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
     fontSize: "2.8rem",
@@ -175,6 +234,39 @@ personalized career guidance.
     </button>
   </div>
 </div>
+
+
+{
+  placement &&
+  skillGap &&
+  resume && (
+    <OrbitXInsights
+      placement={placement}
+      skillGap={skillGap}
+      resume={resume}
+    />
+  )
+}
+
+{
+  jobs.length > 0 && (
+    <OrbitXJobMatches
+      jobs={jobs}
+    />
+  )
+}
+
+{
+  resume &&
+  skillGap &&
+  bestJob && (
+    <OrbitXActionPlan
+      resume={resume}
+      skillGap={skillGap}
+      bestJob={bestJob}
+    />
+  )
+}
 
       {/* Result Section */}
 

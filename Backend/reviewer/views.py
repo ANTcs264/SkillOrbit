@@ -1,3 +1,5 @@
+
+
 from django.shortcuts import render
 
 # Create your views here.
@@ -26,7 +28,13 @@ class ResumeReviewView(APIView):
         IsAuthenticated
     ]
 
+
+    
+    
     def get(self, request):
+        print("==== RESUME REVIEW API ====")
+        print("USER:", request.user)
+        print("AUTH:", request.auth)
 
         skills = Skill.objects.filter(
             user=request.user

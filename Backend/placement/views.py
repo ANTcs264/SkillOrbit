@@ -17,10 +17,14 @@ class PlacementReadinessView(APIView):
     permission_classes = [
         IsAuthenticated
     ]
-
     def get(self, request):
 
+        print("==== PLACEMENT API ====")
+        print("USER:", request.user)
+        print("AUTH:", request.auth)
+    
         user = request.user
+    
 
         skills = Skill.objects.filter(
             user=user

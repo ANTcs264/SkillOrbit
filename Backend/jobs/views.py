@@ -7,11 +7,15 @@ from common.career_engine import (CAREER_PATHS,detect_career_path)
 
 class JobRecommendationView(APIView):
 
-    permission_classes = [
+     permission_classes = [
         IsAuthenticated
     ]
 
-    def get(self, request):
+     def get(self, request):
+
+        print("==== JOB API ====")
+        print("USER:", request.user)
+        print("AUTH:", request.auth)
 
         user = request.user
 
@@ -19,11 +23,12 @@ class JobRecommendationView(APIView):
             user=user
         )
 
-        skill_names = list(set(
-        skill.skill.lower()
-        for skill in skills
-    )
-)
+        skill_names = list(
+            set(
+                skill.skill.lower()
+                for skill in skills
+            )
+        )
         # Career Path Detection
         career_path = detect_career_path(
          skill_names)

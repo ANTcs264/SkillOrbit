@@ -3,6 +3,9 @@ import MainLayout from "../layouts/MainLayout";
 import api from "../services/api";
 import ProfileEditForm from "../components/ProfileEditForm";
 import ProfileInfoCard from "../components/ProfileInfoCard";
+import OrbitXSummary from "../components/OrbitXSummary";
+
+import OrbitXRecommendation from "../components/OrbitXRecommendation";
 
 function Profile() {
 const [profile, setProfile] = useState({
@@ -15,25 +18,27 @@ current_year: "",
 branch: "",
 career_goal: "",
 });
-
+ const [jobs, setJobs] = useState([]);
 const [loading, setLoading] = useState(true);
 const [saving, setSaving] = useState(false);
 const [message, setMessage] = useState("");
 const [editMode, setEditMode] = useState(false);
 
-Promise.all([
-  api.get("profile/"),
-  api.get("job-recommendations/"),
-])
-  .then(([profileRes, jobsRes]) => {
-    setProfile(profileRes.data);
-    setJobs(jobsRes.data);
-    setLoading(false);
-  })
-  .catch((err) => {
-    console.error(err);
-    setLoading(false);
-  });
+useEffect(() => {
+  Promise.all([
+    api.get("profile/"),
+    api.get("job-recommendations/"),
+  ])
+    .then(([profileRes, jobsRes]) => {
+      setProfile(profileRes.data);
+      setJobs(jobsRes.data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error(err);
+      setLoading(false);
+    });
+}, []);
 
 const handleChange = (e) => {
 setProfile({
@@ -86,8 +91,7 @@ const completionPercentage =
       profileFields.length) *
       100
   );
-  const [jobs, setJobs] =
-  useState([]);
+ 
 
 
 
@@ -119,6 +123,14 @@ const bestJob =
     ? jobs[0]
     : null;
 
+const showInsight =
+  profile.career_goal &&
+  bestJob &&
+  !profile.career_goal
+    .toLowerCase()
+    .includes(
+      bestJob.career_path?.toLowerCase() || ""
+    );
 
 return ( <MainLayout>
 {message && (
@@ -183,7 +195,9 @@ return ( <MainLayout>
 
             <div>
               <h1>{profile.username}</h1>
-              <p>{profile.bio}</p>
+              <p>
+             {profile.bio || "No bio added yet."}
+</p>
             </div>
           </div>
 
@@ -215,26 +229,25 @@ return ( <MainLayout>
           marginBottom: "25px",
         }}
       >
-        <ProfileInfoCard
+       <ProfileInfoCard
           title="College"
-          value={profile.college}
+          value={profile.college || "Not Added"}
         />
 
         <ProfileInfoCard
           title="Branch"
-          value={profile.branch}
+          value={profile.branch || "Not Added"}
         />
 
         <ProfileInfoCard
           title="Current Year"
-          value={profile.current_year}
+          value={profile.current_year || "Not Added"}
         />
 
         <ProfileInfoCard
           title="Graduation Year"
           value={
-            profile.graduation_year
-          }
+            profile.graduation_year || "Not Added"}
         />
       </div>
 
@@ -249,107 +262,80 @@ return ( <MainLayout>
       >
         <h2>🎯 Career Goal</h2>
 
-        <p>{profile.career_goal}</p>
+        <p>
+           {profile.career_goal || "Career Goal Not Set"}
+       </p>
 
         <hr />
 
-        <div
-          style={{
-            display: "flex",
-            gap: "15px",
-            marginTop: "20px",
-          }}
-        >
-          <a
-            href={profile.github}
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              background: "#111827",
-              color: "white",
-              textDecoration:
-                "none",
-              padding: "10px 20px",
-              borderRadius: "10px",
-            }}
-          >
-            GitHub
-          </a>
-
-          <a
-            href={profile.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              background: "#2563EB",
-              color: "white",
-              textDecoration:
-                "none",
-              padding: "10px 20px",
-              borderRadius: "10px",
-            }}
-          >
-            LinkedIn
-          </a>
-        </div>
-      </div>
-
       <div
-        style={{
-          background: "white",
-          padding: "25px",
-          borderRadius: "20px",
-          marginTop: "25px",
-          boxShadow:
-            "0 4px 12px rgba(0,0,0,.08)",
-        }}
-      >
-       <h2>🚀 OrbitX Executive Summary</h2>
+  style={{
+    display: "flex",
+    gap: "15px",
+    marginTop: "20px",
+  }}
+>
+  {profile.github && (
+    <a
+      href={profile.github}
+      target="_blank"
+      rel="noreferrer"
+      style={{
+        background: "#111827",
+        color: "white",
+        textDecoration: "none",
+        padding: "10px 20px",
+        borderRadius: "10px",
+      }}
+    >
+      GitHub
+    </a>
+  )}
 
-<p>
-  <strong>
-    🎯 Target Career:
-  </strong>{" "}
-  {profile.career_goal || "Not Set"}
-</p>
+  {profile.linkedin && (
+    <a
+      href={profile.linkedin}
+      target="_blank"
+      rel="noreferrer"
+      style={{
+        background: "#2563EB",
+        color: "white",
+        textDecoration: "none",
+        padding: "10px 20px",
+        borderRadius: "10px",
+      }}
+    >
+      LinkedIn
+    </a>
+  )}
+</div>
+</div>
+  
+  <div
+  style={{
+    background: "white",
+    padding: "25px",
+    borderRadius: "20px",
+    marginTop: "25px",
+    boxShadow:
+      "0 4px 12px rgba(0,0,0,.08)",
+  }}
+>
+  <OrbitXSummary
+    profile={profile}
+    bestJob={bestJob}
+    completionPercentage={
+      completionPercentage
+    }
+  />
 
-<p>
-  <strong>
-    💼 Best Career Match:
-  </strong>{" "}
-  {bestJob?.job_title ||
-    "Not Available"}
-</p>
-
-<p>
-  <strong>
-    📈 Readiness:
-  </strong>{" "}
-  {bestJob?.readiness || 0}%
-</p>
-
-<p>
-  <strong>
-    💰 Salary Range:
-  </strong>{" "}
-  {bestJob?.salary_range ||
-    "N/A"}
-</p>
-
-<p>
-  <strong>
-    📊 Profile Completion:
-  </strong>{" "}
-  {completionPercentage}%
-</p>
-
-<p>
-  <strong>
-    🚀 Recommended Next Step:
-  </strong>{" "}
-  {nextStep}
-</p>
-      </div>
+  <OrbitXRecommendation
+    bestJob={bestJob}
+    nextStep={nextStep}
+    showInsight={showInsight}
+  />
+</div>
+      
     </>
   )}
 </MainLayout>
