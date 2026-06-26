@@ -1,155 +1,127 @@
-# SkillOrbit
+ ## 📌 Overview
 
-AI-Powered Career Development Platform
+SkillOrbit is an AI-powered Career Intelligence Platform designed for engineering students.
 
-SkillOrbit helps students analyze their skills, evaluate resumes, identify skill gaps, generate career roadmaps, and discover suitable job roles.
+Instead of offering isolated tools like resume analysis or job recommendations, SkillOrbit creates a complete career profile by combining:
 
----
+* 👤 Student Profile
+* 📄 Resume Analysis
+* 🧠 Skill Assessment
+* 📊 Placement Readiness
+* 💼 Job Matching
+* 🛣️ Career Roadmap
 
-## Features
+At the center of the platform is **OrbitX**, an intelligent career mentor that analyzes all of this information to provide personalized career guidance, identify skill gaps, recommend certifications, suggest projects, and help students become placement-ready.
 
-### Authentication
-- JWT Authentication
-- User Registration
-- Secure Login
+## 🔄 Student Workflow
 
-### Skills Management
-- Add Skills
-- Track Skill Progress
-- Manage Learning Journey
 
-### Resume Analyzer
+Register/Login
+      │
+      ▼
+Complete Profile
+      │
+      ▼
+Upload Resume
+      │
+      ▼
+Resume Analysis
+      │
+      ▼
+Skill Gap Analysis
+      │
+      ▼
+Job Recommendations
+      │
+      ▼
+Placement Readiness
+      │
+      ▼
+Career Reports
+      │
+      ▼
+OrbitX AI Career Mentor
+
+## Core Features
+
+### Career Intelligence
+- AI Career Mentor (OrbitX)
+- Personalized Career Guidance
+- Placement Readiness Analysis
+
+### Resume Intelligence
+- Resume Analysis
 - Resume Score
-- ATS Score
-- Resume Completeness
-- Placement Readiness
-- Career Path Detection
+- ATS Compatibility
+- Resume Review
 
-### Job Recommendation Engine
-- AI/ML Career Recommendations
-- Readiness Score
-- Missing Skills Detection
-- Recommended Learning Paths
+### Skill Intelligence
+- Skill Gap Analysis
+- Industry Skill Comparison
+- Learning Recommendations
+
+### Job Intelligence
+- Job Recommendations
+- Career Match Score
 - Salary Insights
+- Missing Skills Detection
 
-### Career Roadmap Generator
-- Personalized Roadmaps
-- Career-Level Assessment
-- Skill-Based Progression
+### Learning Intelligence
+- Personalized Career Roadmaps
+- Recommended Certifications
+- Suggested Projects
 
-### Skill Gap Analyzer
-- Compare Current Skills vs Industry Requirements
-- Detect Missing Skills
-- Gap Percentage Calculation
+## 🤖 OrbitX AI Career Mentor
 
----
+OrbitX is the intelligence layer of SkillOrbit.
 
-## Tech Stack
+It combines:
 
-### Backend
-- Python
-- Django
-- Django REST Framework
-- JWT Authentication
+- Profile Information
+- Resume Analysis
+- Skills
+- Placement Readiness
+- Job Recommendations
+- Career Roadmaps
 
-### Database
-- PostgreSQL
+to answer career-related questions and provide personalized guidance.
 
-### Frontend
-- React (In Progress)
+## Current Development Status
 
----
+✅ Authentication
 
-## APIs
+✅ Profile Management
 
-### Skills
+✅ Skills Management
 
-POST
-/api/skills/
+✅ Resume Analysis
 
-GET
-/api/skills/
+✅ Skill Gap Analysis
 
-### Resume Analysis
+✅ Career Roadmap
 
-GET
-/api/resume-analysis/
+✅ Job Recommendation Engine
 
-### Job Recommendations
+✅ Placement Readiness
 
-GET
-/api/job-recommendations/
+✅ OrbitX AI (Architecture Completed)
 
-### Career Roadmap
+🚧 OrbitX Personalized Intelligence
 
-GET
-/api/career-roadmap/
+🚧 Resume Upload Workflow
 
-### Skill Gap Analysis
+🚧 Reports Module
 
-GET
-/api/skill-gap/
+🚧 Interview Preparation
 
----
+## Upcoming Features
 
-## Project Structure
+- Resume Upload & Parsing
+- AI Project Recommendations
+- Certification Recommendation Engine
+- Career Reports (PDF)
+- Personalized Learning Paths
+- Interview Preparation
+- Multi-Domain Career Support
+- OrbitX Personalized AI Mentor
 
-Backend/
-
-├── accounts/
-
-├── analytics/
-
-├── common/
-
-├── courses/
-
-├── enrollments/
-
-├── jobs/
-
-├── profiles/
-
-├── quizzes/
-
-├── resumes/
-
-├── roadmap/
-
-├── skills/
-
-├── config/
-
-└── requirements.txt
-
----
-
-## Current Progress
-
-### Phase 1 Completed
-
-- Authentication
-- Skills Module
-- Resume Analyzer
-- Job Recommendation Engine
-- Career Roadmap Generator
-- Skill Gap Analyzer
-
----
-
-## Upcoming Features (Phase 2)
-
-- Placement Readiness Dashboard
-- Interview Preparation Module
-- Project Recommendation Engine
-- Learning Recommendation System
-
----
-
-## Author
-
-Nishant Kumar
-
-B.Tech CSE (AI & ML)
-
-2024–2028
